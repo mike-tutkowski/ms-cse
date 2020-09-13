@@ -5,8 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd06345d-855d-4732-866a-d1bf7c17f61a" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/data/TaxiQuery.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/schema/TransportType.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/controller/NyTripData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/NyTripData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/data/Location.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/data/Location.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/schema/LocationTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/schema/LocationTable.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/service/Service.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/service/Service.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/service/ServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/service/ServiceImpl.java" afterDir="false" />
     </list>
@@ -189,7 +193,7 @@
       <updated>1568785070381</updated>
       <workItem from="1599613137288" duration="3965000" />
       <workItem from="1599940166213" duration="20202000" />
-      <workItem from="1600024439643" duration="1785000" />
+      <workItem from="1600024439643" duration="5354000" />
     </task>
     <servers />
   </component>
@@ -293,17 +297,6 @@
       <screen x="0" y="23" width="1280" height="777" />
     </state>
     <state x="0" y="23" width="1280" height="777" key="new project wizard/0.23.1280.777@0.23.1280.777" timestamp="1599958767504" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/controller/NyTripData.java</url>
-          <line>35</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
   <component name="debuggerHistoryManager">
     <expressions id="evaluateExpression">

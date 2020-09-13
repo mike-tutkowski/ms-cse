@@ -1,6 +1,7 @@
 package service;
 
 import data.Location;
+import data.TaxiQuery;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -11,6 +12,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import schema.LocationTable;
+import schema.TransportType;
 
 /**
  * The ServiceImpl class, which implements the Service interface, represents
@@ -22,7 +24,7 @@ public class ServiceImpl implements Service {
     private static final String CONNECTION_URL =
             "jdbc:derby:/Users/tutkowski/Downloads/db-derby-10.14.2.0-bin/lib/nytripdb";
 
-    public List<Location> getBoroughs(final String startsWith) throws Exception {
+    public List<Location> getLocations(String startsWith) throws Exception {
         String columnNameId = LocationTable.ID.toString();
         String columnNameBorough = LocationTable.BOROUGH.toString();
         String columnNameZone = LocationTable.ZONE.toString();
@@ -57,5 +59,10 @@ public class ServiceImpl implements Service {
         }
 
         return boroughs;
+    }
+
+    public TaxiQuery getTaxiQuery(int fromLocationId, int toLocationId, TransportType type) throws Exception {
+        /** @// TODO: 9/13/20 Replace with access to the DB */
+        return new TaxiQuery(500, 10.50f);
     }
 }
