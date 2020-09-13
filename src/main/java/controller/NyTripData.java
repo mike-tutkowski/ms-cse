@@ -1,5 +1,10 @@
 package controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+
+import data.Location;
+
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -23,18 +28,22 @@ class NyTripData {
     @RequestMapping(value = "/boroughs", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<String> getBoroughs(@RequestParam(value = "startsWith", required = false) final String startsWith) {
         try {
-            final List<String> boroughs = service.getBoroughs(startsWith);
+            List<Location> boroughs = service.getBoroughs(startsWith);
 
-            final String joined = String.join(", ", boroughs);
-            final String msg = String.format("Successful response to client: '%s'", joined);
+            ObjectMapper mapper = new ObjectMapper();
+
+            mapper.enable(SerializationFeature.INDENT_OUTPUT);
+
+            String json = mapper.writeValueAsString(boroughs);
+            String msg = String.format("Successful response to client: '%s'", json);
 
             LOGGER.debug(msg);
 
-            return new ResponseEntity<>(msg, HttpStatus.OK);
+            return new ResponseEntity<>(json, HttpStatus.OK);
         }
         catch (Exception ex) {
-            final String errMsg = ex.getMessage() + System.lineSeparator();
-            final String formattedMsg = String.format("Error response to client: '%s'", ex.getMessage());
+            String errMsg = ex.getMessage() + System.lineSeparator();
+            String formattedMsg = String.format("Error response to client: '%s'", ex.getMessage());
 
             LOGGER.error(formattedMsg, ex);
 
