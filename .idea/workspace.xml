@@ -4,7 +4,12 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fd06345d-855d-4732-866a-d1bf7c17f61a" name="Default" comment="" />
+    <list default="true" id="fd06345d-855d-4732-866a-d1bf7c17f61a" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/NyTripData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/NyTripData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/service/Service.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/service/Service.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/service/ServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/service/ServiceImpl.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -65,15 +70,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
           <option name="containerStateName" value="" />
         </value>
       </option>
-      <option name="TEST_OBJECT" value="CLASS" />
-      <properties />
-      <listeners />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -128,6 +131,20 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="Application" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true">
+      <module name="nytripdata" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="controller.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="SPRING_BOOT_MAIN_CLASS" value="controller.Application" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration default="true" type="TestNG">
       <option name="TEST_OBJECT" value="CLASS" />
       <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
@@ -154,6 +171,7 @@
       <list>
         <item itemvalue="Spring Boot.Application" />
         <item itemvalue="Spring Boot.Application" />
+        <item itemvalue="Spring Boot.Application" />
         <item itemvalue="JUnit.TestRandomNameJoke" />
       </list>
     </recent_temporary>
@@ -171,6 +189,7 @@
       <updated>1568785070381</updated>
       <workItem from="1599613137288" duration="3965000" />
       <workItem from="1599940166213" duration="20202000" />
+      <workItem from="1600024439643" duration="1785000" />
     </task>
     <servers />
   </component>
@@ -210,62 +229,62 @@
     <option name="version" value="3" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="104" y="73" width="1071" height="700" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1599941977979">
+    <state x="104" y="73" width="1071" height="724" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1600029100893">
       <screen x="0" y="23" width="1280" height="777" />
     </state>
-    <state x="104" y="73" width="1071" height="700" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1280.777@0.23.1280.777" timestamp="1599941977979" />
-    <state width="459" height="466" key="DebuggerActiveHint" timestamp="1599960550569">
+    <state x="104" y="73" width="1071" height="724" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1280.777@0.23.1280.777" timestamp="1600029100893" />
+    <state width="459" height="466" key="DebuggerActiveHint" timestamp="1600028353555">
       <screen x="0" y="23" width="1280" height="777" />
     </state>
-    <state width="459" height="466" key="DebuggerActiveHint/0.23.1280.777@0.23.1280.777" timestamp="1599960550569" />
-    <state width="1238" height="246" key="GridCell.Tab.0.bottom" timestamp="1599974076713">
+    <state width="459" height="466" key="DebuggerActiveHint/0.23.1280.777@0.23.1280.777" timestamp="1600028353555" />
+    <state width="1238" height="246" key="GridCell.Tab.0.bottom" timestamp="1600028408335">
       <screen x="0" y="23" width="1280" height="777" />
     </state>
-    <state width="1238" height="246" key="GridCell.Tab.0.bottom/0.23.1280.777@0.23.1280.777" timestamp="1599974076713" />
-    <state width="1238" height="246" key="GridCell.Tab.0.center" timestamp="1599974076713">
+    <state width="1238" height="246" key="GridCell.Tab.0.bottom/0.23.1280.777@0.23.1280.777" timestamp="1600028408335" />
+    <state width="1238" height="246" key="GridCell.Tab.0.center" timestamp="1600028408335">
       <screen x="0" y="23" width="1280" height="777" />
     </state>
-    <state width="1238" height="246" key="GridCell.Tab.0.center/0.23.1280.777@0.23.1280.777" timestamp="1599974076713" />
-    <state width="1238" height="246" key="GridCell.Tab.0.left" timestamp="1599974076712">
+    <state width="1238" height="246" key="GridCell.Tab.0.center/0.23.1280.777@0.23.1280.777" timestamp="1600028408335" />
+    <state width="1238" height="246" key="GridCell.Tab.0.left" timestamp="1600028408334">
       <screen x="0" y="23" width="1280" height="777" />
     </state>
-    <state width="1238" height="246" key="GridCell.Tab.0.left/0.23.1280.777@0.23.1280.777" timestamp="1599974076712" />
-    <state width="1238" height="246" key="GridCell.Tab.0.right" timestamp="1599974076713">
+    <state width="1238" height="246" key="GridCell.Tab.0.left/0.23.1280.777@0.23.1280.777" timestamp="1600028408334" />
+    <state width="1238" height="246" key="GridCell.Tab.0.right" timestamp="1600028408335">
       <screen x="0" y="23" width="1280" height="777" />
     </state>
-    <state width="1238" height="246" key="GridCell.Tab.0.right/0.23.1280.777@0.23.1280.777" timestamp="1599974076713" />
-    <state width="1238" height="246" key="GridCell.Tab.1.bottom" timestamp="1599974076714">
+    <state width="1238" height="246" key="GridCell.Tab.0.right/0.23.1280.777@0.23.1280.777" timestamp="1600028408335" />
+    <state width="1238" height="246" key="GridCell.Tab.1.bottom" timestamp="1600028408337">
       <screen x="0" y="23" width="1280" height="777" />
     </state>
-    <state width="1238" height="246" key="GridCell.Tab.1.bottom/0.23.1280.777@0.23.1280.777" timestamp="1599974076714" />
-    <state width="1238" height="246" key="GridCell.Tab.1.center" timestamp="1599974076714">
+    <state width="1238" height="246" key="GridCell.Tab.1.bottom/0.23.1280.777@0.23.1280.777" timestamp="1600028408337" />
+    <state width="1238" height="246" key="GridCell.Tab.1.center" timestamp="1600028408336">
       <screen x="0" y="23" width="1280" height="777" />
     </state>
-    <state width="1238" height="246" key="GridCell.Tab.1.center/0.23.1280.777@0.23.1280.777" timestamp="1599974076714" />
-    <state width="1238" height="246" key="GridCell.Tab.1.left" timestamp="1599974076714">
+    <state width="1238" height="246" key="GridCell.Tab.1.center/0.23.1280.777@0.23.1280.777" timestamp="1600028408336" />
+    <state width="1238" height="246" key="GridCell.Tab.1.left" timestamp="1600028408336">
       <screen x="0" y="23" width="1280" height="777" />
     </state>
-    <state width="1238" height="246" key="GridCell.Tab.1.left/0.23.1280.777@0.23.1280.777" timestamp="1599974076714" />
-    <state width="1238" height="246" key="GridCell.Tab.1.right" timestamp="1599974076714">
+    <state width="1238" height="246" key="GridCell.Tab.1.left/0.23.1280.777@0.23.1280.777" timestamp="1600028408336" />
+    <state width="1238" height="246" key="GridCell.Tab.1.right" timestamp="1600028408336">
       <screen x="0" y="23" width="1280" height="777" />
     </state>
-    <state width="1238" height="246" key="GridCell.Tab.1.right/0.23.1280.777@0.23.1280.777" timestamp="1599974076714" />
-    <state width="1238" height="246" key="GridCell.Tab.2.bottom" timestamp="1599974076715">
+    <state width="1238" height="246" key="GridCell.Tab.1.right/0.23.1280.777@0.23.1280.777" timestamp="1600028408336" />
+    <state width="1238" height="246" key="GridCell.Tab.2.bottom" timestamp="1600028408339">
       <screen x="0" y="23" width="1280" height="777" />
     </state>
-    <state width="1238" height="246" key="GridCell.Tab.2.bottom/0.23.1280.777@0.23.1280.777" timestamp="1599974076715" />
-    <state width="1238" height="246" key="GridCell.Tab.2.center" timestamp="1599974076715">
+    <state width="1238" height="246" key="GridCell.Tab.2.bottom/0.23.1280.777@0.23.1280.777" timestamp="1600028408339" />
+    <state width="1238" height="246" key="GridCell.Tab.2.center" timestamp="1600028408337">
       <screen x="0" y="23" width="1280" height="777" />
     </state>
-    <state width="1238" height="246" key="GridCell.Tab.2.center/0.23.1280.777@0.23.1280.777" timestamp="1599974076715" />
-    <state width="1238" height="246" key="GridCell.Tab.2.left" timestamp="1599974076714">
+    <state width="1238" height="246" key="GridCell.Tab.2.center/0.23.1280.777@0.23.1280.777" timestamp="1600028408337" />
+    <state width="1238" height="246" key="GridCell.Tab.2.left" timestamp="1600028408337">
       <screen x="0" y="23" width="1280" height="777" />
     </state>
-    <state width="1238" height="246" key="GridCell.Tab.2.left/0.23.1280.777@0.23.1280.777" timestamp="1599974076714" />
-    <state width="1238" height="246" key="GridCell.Tab.2.right" timestamp="1599974076715">
+    <state width="1238" height="246" key="GridCell.Tab.2.left/0.23.1280.777@0.23.1280.777" timestamp="1600028408337" />
+    <state width="1238" height="246" key="GridCell.Tab.2.right" timestamp="1600028408338">
       <screen x="0" y="23" width="1280" height="777" />
     </state>
-    <state width="1238" height="246" key="GridCell.Tab.2.right/0.23.1280.777@0.23.1280.777" timestamp="1599974076715" />
+    <state width="1238" height="246" key="GridCell.Tab.2.right/0.23.1280.777@0.23.1280.777" timestamp="1600028408338" />
     <state x="141" y="50" key="SettingsEditor" timestamp="1599940200431">
       <screen x="0" y="23" width="1280" height="777" />
     </state>
@@ -274,6 +293,17 @@
       <screen x="0" y="23" width="1280" height="777" />
     </state>
     <state x="0" y="23" width="1280" height="777" key="new project wizard/0.23.1280.777@0.23.1280.777" timestamp="1599958767504" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/controller/NyTripData.java</url>
+          <line>35</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="debuggerHistoryManager">
     <expressions id="evaluateExpression">
