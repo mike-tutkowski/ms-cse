@@ -1,0 +1,91 @@
+
+Sample API invocations:
+
+// Return all locations.
+tutkowski@Tut-MacBooks-MacBook-Pro ~ % curl 'http://localhost:5000/locations'
+[ {
+  "id" : 1,
+  "borough" : "EWR",
+  "zone" : "Newark Airport"
+}, {
+  "id" : 2,
+  "borough" : "Queens",
+  "zone" : "Jamaica Bay"
+... More data ...
+}, {
+  "id" : 265,
+  "borough" : "Unknown",
+  "zone" : "NA"
+} ]
+
+// Return only locations that have a borough starting with the letter 'B'.
+tutkowski@Tut-MacBooks-MacBook-Pro ~ % curl 'http://localhost:5000/locations?startsWith=B'
+[ {
+  "id" : 3,
+  "borough" : "Bronx",
+  "zone" : "Allerton/Pelham Gardens"
+}, {
+  "id" : 11,
+  "borough" : "Brooklyn",
+  "zone" : "Bath Beach"
+... More data ...
+}, {
+  "id" : 259,
+  "borough" : "Bronx",
+  "zone" : "Woodlawn/Wakefield"
+} ]
+
+// No matching data.
+tutkowski@Tut-MacBooks-MacBook-Pro ~ % curl 'http://localhost:5000/locations?startsWith=Bq'
+[ ]
+
+// Invalid parameter names get ignored.
+tutkowski@Tut-MacBooks-MacBook-Pro ~ % curl 'http://localhost:5000/locations?xyz=B'
+[ {
+  "id" : 1,
+  "borough" : "EWR",
+  "zone" : "Newark Airport"
+}, {
+  "id" : 2,
+  "borough" : "Queens",
+  "zone" : "Jamaica Bay"
+... More data ...
+}, {
+  "id" : 265,
+  "borough" : "Unknown",
+  "zone" : "NA"
+} ]
+
+// Return the average seconds and average cost for trips that started in location ID 100, ended in location ID 200, and were from yellow taxis.
+tutkowski@Tut-MacBooks-MacBook-Pro ~ % curl 'http://localhost:5000/taxiquery?fromLocationId=100&toLocationId=200&transportType=YELLOW'
+{
+  "averageSeconds" : 1265,
+  "averageCost" : 44.49
+}
+
+// No matching data.
+tutkowski@Tut-MacBooks-MacBook-Pro ~ % curl 'http://localhost:5000/taxiquery?fromLocationId=100&toLocationId=200&transportType=GREEN'
+{
+  "averageSeconds" : 0,
+  "averageCost" : 0.0
+}
+
+// Return the average seconds and average cost for trips that started in location ID 100, ended in location ID 200, and were from for-hire vehicles (there
+// is no data for cost for these types of vehicles).
+tutkowski@Tut-MacBooks-MacBook-Pro ~ % curl 'http://localhost:5000/taxiquery?fromLocationId=100&toLocationId=200&transportType=FOR_HIRE'
+{
+  "averageSeconds" : 1366,
+  "averageCost" : 0.0
+}
+
+// Invalid path in the URL.
+tutkowski@Tut-MacBooks-MacBook-Pro ~ % curl 'http://localhost:5000/taxiquery123?fromLocationId=100&toLocationId=200&transporttype=FOR_HIRE'
+{"timestamp":"2020-09-14T02:55:51.783+0000","status":404,"error":"Not Found","message":"No message available","path":"/taxiquery123"}
+
+
+
+
+
+
+
+
