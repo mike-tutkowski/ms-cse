@@ -30,6 +30,9 @@ class NyTripData {
 
     @Autowired private Service service;
 
+    /**
+     * This function is the entry point for the '/locations' REST call.
+     */
     @RequestMapping(value = "/locations", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<String> getLocations(@RequestParam(value = "startsWith", required = false) String startsWith) {
         try {
@@ -43,14 +46,18 @@ class NyTripData {
             return new ResponseEntity<>(json, HttpStatus.OK);
         }
         catch (Exception ex) {
-            String errorLogMsg = getErrorLogMsg(ex);
+            String errMsg = ex.getMessage();
+            String errorLogMsg = getErrorLogMsg(errMsg);
 
             LOGGER.error(errorLogMsg, ex);
 
-            return new ResponseEntity<>(getErrorJson(ex.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(getErrorJson(errMsg), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
+    /**
+     * This function is the entry point for the '/taxiquery' REST call.
+     */
     @RequestMapping(value = "/taxiquery", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<String> getTaxiQuery(@RequestParam(value = "fromLocationId") int fromLocationId,
                                         @RequestParam(value = "toLocationId") int toLocationId,
@@ -75,14 +82,18 @@ class NyTripData {
             return new ResponseEntity<>(json, HttpStatus.OK);
         }
         catch (Exception ex) {
-            String errorLogMsg = getErrorLogMsg(ex);
+            String errMsg = ex.getMessage();
+            String errorLogMsg = getErrorLogMsg(errMsg);
 
             LOGGER.error(errorLogMsg, ex);
 
-            return new ResponseEntity<>(getErrorJson(ex.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(getErrorJson(errMsg), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
+    /**
+     * The static method getAsJson converts an arbitrary object to a JSON-formatted String.
+     */
     private static String getAsJson(Object obj) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
 
@@ -91,6 +102,9 @@ class NyTripData {
         return mapper.writeValueAsString(obj);
     }
 
+    /**
+     * The static method getTransportType converts a String to an instance of TransportType.
+     */
     private static TransportType getTransportType(String transportType) {
         if (transportType == null || transportType.trim().length() == 0) {
             return TransportType.NONE;
@@ -108,15 +122,24 @@ class NyTripData {
         }
     }
 
+    /**
+     * Convenience method to format an error message in JSON.
+     */
     private static String getErrorJson(String errorMsg) {
         return "{\"error\": \"" + errorMsg + "\"}";
     }
 
+    /**
+     * Convenience method to combine a JSON String with other text for output to the log.
+     */
     private static String getSuccessfulLogMsg(String json) {
         return String.format("Successful response to client:" + System.lineSeparator() + "'%s'", json);
     }
 
-    private static String getErrorLogMsg(Exception ex) {
-        return String.format("Error response to client: '%s'", ex.getMessage());
+    /**
+     * Convenience method to combine an error message with other text for output to the log.
+     */
+    private static String getErrorLogMsg(String errorMsg) {
+        return String.format("Error response to client: '%s'", errorMsg);
     }
 }

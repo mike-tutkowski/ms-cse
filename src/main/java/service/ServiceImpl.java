@@ -17,17 +17,25 @@ import schema.LocationTable;
 import schema.TransportType;
 import schema.TripTable;
 
-/** For the purposes of this assignment, I decided to go with an embedded Derby DB. This makes configuration easy
- *  (so I can spend more time on other aspects of the project), but it only allows for one active connection at a
- *  time. As such, I have made the getLocations and getTaxiQuery methods synchronized so that only one of them
- *  is accessing the DB at a time. In a real-world situation, we would want to spend time making sure the DB
- *  can not only be accessed from multiple threads at the same time, but that our code can control access to
- *  such resources properly.
- */
-
 /**
- * The ServiceImpl class, which implements the Service interface, represents
- * the business logic of the system.
+ * For the purposes of this assignment, I decided to go with an embedded Derby DB. This makes configuration easy
+ * (so I can spend more time on other aspects of the project), but it only allows for one active connection at a
+ * time. As such, I have made the getLocations and getTaxiQuery methods synchronized so that only one of them
+ * is accessing the DB at a time. In a real-world situation, we would want to spend time making sure the DB
+ * can not only be accessed from multiple threads at the same time, but that our code can control access to
+ * such resources properly.
+ *
+ * Since I elected for this project to keep the data-access layer relatively simple, I did not leverage
+ * any of Java's Persistence APIs (JPA). Using tools like that, I could have generated classes that
+ * represented my SQL queries. Doing such a thing in large projects tends to make maintenance of the
+ * logic of SQL statements easier.
+ *
+ * The ServiceImpl class, which implements the Service interface, represents the business logic of the
+ * system. In an effort to keep the design relatively simple for this project, I decided to merge
+ * the business and data-access layers into one unit (so, there is both business as well as
+ * data-access logic in this particular implementation of the Service interface). In larger projects,
+ * I have often found it beneficial to separate the layers of a REST service into distinct API, business,
+ * and data-access units.
  */
 @org.springframework.stereotype.Service
 public class ServiceImpl implements Service {
@@ -37,6 +45,10 @@ public class ServiceImpl implements Service {
 
     private final DecimalFormat DECIMAL_FORMATTER = new DecimalFormat("#.##");
 
+    /**
+     * This method retrieves locations from the LOCATION table. If startWith is populated,
+     * I only include locations whose borough starts with the provided text.
+     */
     public synchronized List<Location> getLocations(String startsWith) throws Exception {
         Connection conn = DriverManager.getConnection(CONNECTION_URL);
 
@@ -70,6 +82,10 @@ public class ServiceImpl implements Service {
         return boroughs;
     }
 
+    /**
+     * This method calculates an average trip time (in seconds) and an average cost based on
+     * provided location IDs (from and to) and - optionally - a transport type.
+     */
     public synchronized Optional<TaxiQuery> getTaxiQuery(int fromLocationId, int toLocationId, TransportType type) throws Exception {
         Connection conn = DriverManager.getConnection(CONNECTION_URL);
 
