@@ -40,8 +40,7 @@ import schema.TripTable;
 @org.springframework.stereotype.Service
 public class ServiceImpl implements Service {
     private static final Logger LOGGER = Logger.getLogger(ServiceImpl.class);
-    private static final String CONNECTION_URL =
-            "jdbc:derby:/Users/tutkowski/Downloads/db-derby-10.14.2.0-bin/lib/nytripdb";
+    private static final String CONNECTION_URL = "jdbc:derby:nytripdb";
 
     private final DecimalFormat DECIMAL_FORMATTER = new DecimalFormat("#.##");
 
