@@ -49,10 +49,6 @@ public class ServiceImpl implements Service {
      * I only include locations whose borough starts with the provided text.
      */
     public synchronized List<Location> getLocations(String startsWith) throws Exception {
-        Connection conn = DriverManager.getConnection(CONNECTION_URL);
-
-        LOGGER.debug("Connected to database from 'getLocations' method");
-
         String sql = "SELECT * FROM " + LocationTable.LOCATION_TABLE_NAME;
 
         if (startsWith != null && startsWith.trim().length() > 0) {
@@ -63,19 +59,22 @@ public class ServiceImpl implements Service {
 
         LOGGER.debug("SQL to execute = '" + sql + "'");
 
-        PreparedStatement s = conn.prepareStatement(sql);
-        ResultSet rs= s.executeQuery();
-
         java.util.List<Location> boroughs = new java.util.ArrayList<>();
 
-        while (rs.next()) {
-            int id = rs.getInt(LocationTable.LOCATION_TABLE_ID_COL);
-            String borough = rs.getString(LocationTable.LOCATION_TABLE_BOROUGH_COL);
-            String zone = rs.getString(LocationTable.LOCATION_TABLE_ZONE_COL);
+        try (Connection conn = DriverManager.getConnection(CONNECTION_URL);
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs= stmt.executeQuery()) {
+            LOGGER.debug("Connected to database from 'getLocations' method");
 
-            Location location = new Location(id, borough, zone);
+            while (rs.next()) {
+                int id = rs.getInt(LocationTable.LOCATION_TABLE_ID_COL);
+                String borough = rs.getString(LocationTable.LOCATION_TABLE_BOROUGH_COL);
+                String zone = rs.getString(LocationTable.LOCATION_TABLE_ZONE_COL);
 
-            boroughs.add(location);
+                Location location = new Location(id, borough, zone);
+
+                boroughs.add(location);
+            }
         }
 
         return boroughs;
@@ -86,10 +85,6 @@ public class ServiceImpl implements Service {
      * provided location IDs (from and to) and - optionally - a transport type.
      */
     public synchronized Optional<TaxiQuery> getTaxiQuery(int fromLocationId, int toLocationId, TransportType type) throws Exception {
-        Connection conn = DriverManager.getConnection(CONNECTION_URL);
-
-        LOGGER.debug("Connected to database from 'getTaxiQuery' method");
-
         String sql = "SELECT AVG({fn timestampdiff(SQL_TSI_SECOND, " + TripTable.TRIP_TABLE_PICK_UP_TIME_COL +
                 ", " + TripTable.TRIP_TABLE_DROP_OFF_TIME_COL + ")}) as AverageSeconds, " +
                 "AVG(" + TripTable.TRIP_TABLE_COST_COL + ") as AverageCost " +
@@ -103,16 +98,20 @@ public class ServiceImpl implements Service {
 
         LOGGER.debug("SQL to execute = '" + sql + "'");
 
-        PreparedStatement s = conn.prepareStatement(sql);
-        ResultSet rs= s.executeQuery();
+        try (Connection conn = DriverManager.getConnection(CONNECTION_URL);
+             PreparedStatement s = conn.prepareStatement(sql);
+             ResultSet rs= s.executeQuery()) {
 
-        if (rs.next()) {
-            int averageSeconds = rs.getInt(TaxiQuery.AVERAGE_SECONDS);
-            float averageCost = rs.getFloat(TaxiQuery.AVERAGE_COST);
+            LOGGER.debug("Connected to database from 'getTaxiQuery' method");
 
-            averageCost = Float.parseFloat(DECIMAL_FORMATTER.format(averageCost));
+            if (rs.next()) {
+                int averageSeconds = rs.getInt(TaxiQuery.AVERAGE_SECONDS);
+                float averageCost = rs.getFloat(TaxiQuery.AVERAGE_COST);
 
-            return Optional.of(new TaxiQuery(averageSeconds, averageCost));
+                averageCost = Float.parseFloat(DECIMAL_FORMATTER.format(averageCost));
+
+                return Optional.of(new TaxiQuery(averageSeconds, averageCost));
+            }
         }
 
         return Optional.empty();
