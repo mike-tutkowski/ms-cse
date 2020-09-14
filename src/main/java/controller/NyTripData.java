@@ -8,6 +8,7 @@ import data.Location;
 import data.TaxiQuery;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,22 +33,21 @@ class NyTripData {
     @RequestMapping(value = "/locations", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<String> getLocations(@RequestParam(value = "startsWith", required = false) String startsWith) {
         try {
-            List<Location> boroughs = service.getLocations(startsWith);
+            List<Location> locations = service.getLocations(startsWith);
 
-            String json = getAsJson(boroughs);
-            String msg = String.format("Successful response to client: '%s'", json);
+            String json = getAsJson(locations);
+            String msg = getSuccessfulLogMsg(json);
 
             LOGGER.debug(msg);
 
             return new ResponseEntity<>(json, HttpStatus.OK);
         }
         catch (Exception ex) {
-            String errMsg = ex.getMessage() + System.lineSeparator();
-            String formattedMsg = String.format("Error response to client: '%s'", ex.getMessage());
+            String errorLogMsg = getErrorLogMsg(ex);
 
-            LOGGER.error(formattedMsg, ex);
+            LOGGER.error(errorLogMsg, ex);
 
-            return new ResponseEntity<>(errMsg, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(getErrorJson(ex.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -56,22 +56,30 @@ class NyTripData {
                                         @RequestParam(value = "toLocationId") int toLocationId,
                                         @RequestParam(value = "transportType", required = false) String transportType) {
         try {
-            TaxiQuery query = service.getTaxiQuery(fromLocationId, toLocationId, TransportType.NONE);
+            Optional<TaxiQuery> query = service.getTaxiQuery(fromLocationId, toLocationId, getTransportType(transportType));
 
-            String json = getAsJson(query);
-            String msg = String.format("Successful response to client: '%s'", json);
+            final String json;
+            final String msg;
+
+            if (query.isPresent()) {
+                json = getAsJson(query.get());
+                msg = getSuccessfulLogMsg(json);
+            }
+            else {
+                json = "{}";
+                msg = "Successful response to client, but no applicable data exists";
+            }
 
             LOGGER.debug(msg);
 
             return new ResponseEntity<>(json, HttpStatus.OK);
         }
         catch (Exception ex) {
-            String errMsg = ex.getMessage() + System.lineSeparator();
-            String formattedMsg = String.format("Error response to client: '%s'", ex.getMessage());
+            String errorLogMsg = getErrorLogMsg(ex);
 
-            LOGGER.error(formattedMsg, ex);
+            LOGGER.error(errorLogMsg, ex);
 
-            return new ResponseEntity<>(errMsg, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(getErrorJson(ex.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -81,5 +89,34 @@ class NyTripData {
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
 
         return mapper.writeValueAsString(obj);
+    }
+
+    private static TransportType getTransportType(String transportType) {
+        if (transportType == null || transportType.trim().length() == 0) {
+            return TransportType.NONE;
+        }
+
+        try {
+            return TransportType.valueOf(transportType);
+        }
+        catch (IllegalArgumentException ex) {
+            String msg = "Invalid format for Transport Type: " + transportType;
+
+            LOGGER.error(msg, ex);
+
+            throw new RuntimeException(msg);
+        }
+    }
+
+    private static String getErrorJson(String errorMsg) {
+        return "{\"error\": \"" + errorMsg + "\"}";
+    }
+
+    private static String getSuccessfulLogMsg(String json) {
+        return String.format("Successful response to client:" + System.lineSeparator() + "'%s'", json);
+    }
+
+    private static String getErrorLogMsg(Exception ex) {
+        return String.format("Error response to client: '%s'", ex.getMessage());
     }
 }

@@ -1,6 +1,9 @@
 package data;
 
 public class TaxiQuery {
+    public static final String AVERAGE_SECONDS = "AverageSeconds";
+    public static final String AVERAGE_COST = "AverageCost";
+
     private final int averageSeconds;
     private final float averageCost;
 

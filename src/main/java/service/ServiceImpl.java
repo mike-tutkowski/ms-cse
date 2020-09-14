@@ -7,12 +7,15 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.DecimalFormat;
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.log4j.Logger;
 
 import schema.LocationTable;
 import schema.TransportType;
+import schema.TripTable;
 
 /** For the purposes of this assignment, I decided to go with an embedded Derby DB. This makes configuration easy
  *  (so I can spend more time on other aspects of the project), but it only allows for one active connection at a
@@ -32,22 +35,20 @@ public class ServiceImpl implements Service {
     private static final String CONNECTION_URL =
             "jdbc:derby:/Users/tutkowski/Downloads/db-derby-10.14.2.0-bin/lib/nytripdb";
 
-    public synchronized List<Location> getLocations(String startsWith) throws Exception {
-        String columnNameId = LocationTable.ID.toString();
-        String columnNameBorough = LocationTable.BOROUGH.toString();
-        String columnNameZone = LocationTable.ZONE.toString();
+    private final DecimalFormat DECIMAL_FORMATTER = new DecimalFormat("#.##");
 
+    public synchronized List<Location> getLocations(String startsWith) throws Exception {
         Connection conn = DriverManager.getConnection(CONNECTION_URL);
 
-        LOGGER.debug("Connected to database ");
+        LOGGER.debug("Connected to database from 'getLocations' method");
 
         String sql = "SELECT * FROM " + LocationTable.LOCATION_TABLE_NAME;
 
         if (startsWith != null && startsWith.trim().length() > 0) {
-            sql += " WHERE " + columnNameBorough + " LIKE '" + startsWith + "%'";
+            sql += " WHERE " + LocationTable.LOCATION_TABLE_BOROUGH_COL + " LIKE '" + startsWith + "%'";
         }
 
-        sql += " ORDER BY " + columnNameId;
+        sql += " ORDER BY " + LocationTable.LOCATION_TABLE_ID_COL;
 
         LOGGER.debug("SQL to execute = '" + sql + "'");
 
@@ -57,9 +58,9 @@ public class ServiceImpl implements Service {
         java.util.List<Location> boroughs = new java.util.ArrayList<>();
 
         while (rs.next()) {
-            int id = rs.getInt(columnNameId);
-            String borough = rs.getString(columnNameBorough);
-            String zone = rs.getString(columnNameZone);
+            int id = rs.getInt(LocationTable.LOCATION_TABLE_ID_COL);
+            String borough = rs.getString(LocationTable.LOCATION_TABLE_BOROUGH_COL);
+            String zone = rs.getString(LocationTable.LOCATION_TABLE_ZONE_COL);
 
             Location location = new Location(id, borough, zone);
 
@@ -69,8 +70,36 @@ public class ServiceImpl implements Service {
         return boroughs;
     }
 
-    public synchronized TaxiQuery getTaxiQuery(int fromLocationId, int toLocationId, TransportType type) throws Exception {
-        /** @// TODO: 9/13/20 Replace with access to the DB */
-        return new TaxiQuery(500, 10.50f);
+    public synchronized Optional<TaxiQuery> getTaxiQuery(int fromLocationId, int toLocationId, TransportType type) throws Exception {
+        Connection conn = DriverManager.getConnection(CONNECTION_URL);
+
+        LOGGER.debug("Connected to database from 'getTaxiQuery' method");
+
+        String sql = "SELECT AVG({fn timestampdiff(SQL_TSI_SECOND, " + TripTable.TRIP_TABLE_PICK_UP_TIME_COL +
+                ", " + TripTable.TRIP_TABLE_DROP_OFF_TIME_COL + ")}) as AverageSeconds, " +
+                "AVG(" + TripTable.TRIP_TABLE_COST_COL + ") as AverageCost " +
+                "FROM " + TripTable.TRIP_TABLE_NAME + " " +
+                "WHERE " + TripTable.TRIP_TABLE_PICK_UP_LOC_ID_COL + " = " + fromLocationId + " and " +
+                TripTable.TRIP_TABLE_DROP_OFF_LOC_ID_COL + " = " + toLocationId;
+
+        if (type != null && !type.equals(TransportType.NONE)) {
+            sql += " and " + TripTable.TRIP_TABLE_TRANSPORT_TYPE_COL + " = " + type.ordinal();
+        }
+
+        LOGGER.debug("SQL to execute = '" + sql + "'");
+
+        PreparedStatement s = conn.prepareStatement(sql);
+        ResultSet rs= s.executeQuery();
+
+        if (rs.next()) {
+            int averageSeconds = rs.getInt(TaxiQuery.AVERAGE_SECONDS);
+            float averageCost = rs.getFloat(TaxiQuery.AVERAGE_COST);
+
+            averageCost = Float.parseFloat(DECIMAL_FORMATTER.format(averageCost));
+
+            return Optional.of(new TaxiQuery(averageSeconds, averageCost));
+        }
+
+        return Optional.empty();
     }
 }
