@@ -5,12 +5,16 @@ To run the REST service from a command prompt:
     * Navigate to the folder that contains this README file.
     * On Windows, execute the following command: mvnw.cmd spring-boot:run
       On Linux (including Mac OS X), execute the following command: ./mvnw spring-boot:run
+    * Note: The first time you run this command, it may take longer than normal to execute
+      as supporting software packages may need to be downloaded.
     * Execute CTRL-C to terminate the REST service.
 
 Alternatively, you can run the REST service from a command prompt as follows:
     * Navigate to the folder that contains this README file.
     * On Windows, execute the following command to build a JAR file: mvnw.cmd clean package
       On Linux (including Mac OS X), execute the following command: ./mvnw clean package
+    * Note: The first time you run this command, it may take longer than normal to execute
+      as supporting software packages may need to be downloaded.
     * java -jar target/random-name-joke-service-1.0.0.jar
     * Execute CTRL-C to terminate the REST service.
 
