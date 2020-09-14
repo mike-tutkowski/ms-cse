@@ -1,4 +1,11 @@
 
+# ms-cse (Taxi Trips)
+
+## Requirements
+* [JDK 1.14](https://www.oracle.com/java/technologies/javase-jdk14-downloads.html)
+* Set JAVA_HOME to C:\Program Files\Java\jdk-14.0.2
+  https://www.java.com/en/download/help/path.xml
+
 *** Running the application ***
 
 To run the REST service from a command prompt:
