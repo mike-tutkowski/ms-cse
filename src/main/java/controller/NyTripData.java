@@ -111,7 +111,7 @@ class NyTripData {
         }
 
         try {
-            return TransportType.valueOf(transportType);
+            return TransportType.valueOf(transportType.toUpperCase());
         }
         catch (IllegalArgumentException ex) {
             String msg = "Invalid format for Transport Type: " + transportType;
