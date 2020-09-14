@@ -1,6 +1,12 @@
 
 Sample API invocations:
 
+Note: Query-parameter keys are case sensitive. If you do not use the proper casing, the key is not recognized. If it is a required key,
+then the API call will fail. If it is not a required key, then the parameter is silently ignored. This is due to the way Java Spring Boot
+handles these kinds of parameters. There are workarounds that I could have put in place, but there is also a fair amount of debate about
+whether or not ignoring the case of a key might be considered a weakening of the API "contract." As such, I have simply left the Spring
+Boot handling of these parameters are is.
+
 // Return all locations.
 tutkowski@Tut-MacBooks-MacBook-Pro ~ % curl 'http://localhost:5000/locations'
 [ {
@@ -78,7 +84,7 @@ tutkowski@Tut-MacBooks-MacBook-Pro ~ % curl 'http://localhost:5000/taxiquery?fro
   "averageCost" : 0.0
 }
 
-// Invalid path in the URL.
+// Invalid path in the URL (taxiquery123).
 tutkowski@Tut-MacBooks-MacBook-Pro ~ % curl 'http://localhost:5000/taxiquery123?fromLocationId=100&toLocationId=200&transporttype=FOR_HIRE'
 {"timestamp":"2020-09-14T02:55:51.783+0000","status":404,"error":"Not Found","message":"No message available","path":"/taxiquery123"}
 
