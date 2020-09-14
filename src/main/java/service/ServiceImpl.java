@@ -52,7 +52,7 @@ public class ServiceImpl implements Service {
         String sql = "SELECT * FROM " + LocationTable.LOCATION_TABLE_NAME;
 
         if (startsWith != null && startsWith.trim().length() > 0) {
-            sql += " WHERE " + LocationTable.LOCATION_TABLE_BOROUGH_COL + " LIKE '" + startsWith + "%'";
+            sql += " WHERE UPPER(" + LocationTable.LOCATION_TABLE_BOROUGH_COL + ") LIKE '" + startsWith.toUpperCase() + "%'";
         }
 
         sql += " ORDER BY " + LocationTable.LOCATION_TABLE_ID_COL;
