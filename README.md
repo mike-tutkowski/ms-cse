@@ -122,7 +122,7 @@ Note: In order to keep the download time (from GitHub) quick for this project, I
 set of data for each of the three vehicle types (yellow taxis, green taxis, and for-hire vehicles). I included in
 the database 300,000 records of each type. This should provide a nice sample size of data.
 
-If you would like to use an input set that will definitely return (non-zero) data, I have confirmed that the
+If you would like to use an input set that will definitely return (non-zero) data&ast;, I have confirmed that the
 follow ten pairs of from-location IDs and to-location-IDs will do so for the taxiquery (regardless of transport type):
 
 | From Location ID | To Location ID |
@@ -137,6 +137,9 @@ follow ten pairs of from-location IDs and to-location-IDs will do so for the tax
 | 146 | 7 |
 | 181 | 61 |
 | 255 | 112 |
+
+* Note: Reminder that "Average Cost" when the transportType query parameter is set to FOR_HIRE will always be 0.00
+because total cost does not exist in the data set of for-hire vehicles.
 
 ## Database Schema
 The database is composed of [two tables](https://github.com/mike-tutkowski/ms-cse/blob/master/sql/create_taxi_derby_db.sql).
