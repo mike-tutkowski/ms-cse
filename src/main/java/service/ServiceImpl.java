@@ -36,6 +36,15 @@ import schema.TripTable;
  * data-access logic in this particular implementation of the Service interface). In larger projects,
  * I have often found it beneficial to separate the layers of a REST service into distinct API, business,
  * and data-access units.
+ *
+ * For more detailed information regarding some of my thoughts on this separation of concerns, please
+ * feel free to watch one or both of my industry presentations on the subject:
+ *
+ * Building API Plug-ins for CloudStack (Seville, Spain - Nov. 2016):
+ * https://www.youtube.com/watch?v=J9Xc6muzaAk&list=PLqOXKM0Bt13DFnQnwUx8ZtJzoyDV0Uuye&index=32&t=0s
+ *
+ * Developing API Plug-ins for CloudStack (from the CloudStack Collaboration Conference, Dublin 2015):
+ * https://www.youtube.com/watch?v=enwFLcRLEr8&list=PLqOXKM0Bt13DFnQnwUx8ZtJzoyDV0Uuye&index=35&t=12s
  */
 @org.springframework.stereotype.Service
 public class ServiceImpl implements Service {
