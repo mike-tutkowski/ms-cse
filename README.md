@@ -29,7 +29,6 @@ To run the unit tests for the REST service from a command prompt:
 You can call the REST service's endpoints from any tool capable of making the necessary
 HTTP calls. Here is an example using curl:
 
-Example call:
 $ curl 'http://localhost:5000/locations'
 
 An easy way to execute the API commands is to launch the web browser of your choice
@@ -60,11 +59,14 @@ The REST service supports the following two commands:
     }
   ]
 
+  You can then make use of the returned "id" value in the taxiquery API command. This "id" field serves as
+  a valid value for the fromLocationId and toLocationId query parameters of the taxiquery API call.
+
 * http://localhost:5000/taxiquery
 
   This API supports three query parameters:
-  * fromLocationId (required)
-  * toLocationId (required)
+  * fromLocationId (required) - valid values comes from the "id" of a location returned by the locations API call (described above)
+  * toLocationId (required) - valid values comes from the "id" of a location returned by the locations API call (described above)
   * transportType (optional) - valid values are YELLOW, GREEN, and FOR_HIRE
 
   Here is an example showing only the use of the two required query parameters:
