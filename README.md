@@ -118,6 +118,26 @@ in one important way: it did not contain a trip cost. I only required a subset o
   - `PULocationID`: ID of pickup location (references the LocationID in the Location/Zone above)
   - `DOLocationID`: ID of pickup location (references the LocationID in the Location/Zone above)
 
+Note: In order to keep the download time (from GitHub) quick for this project, I decided to include an abridged
+set of data for each of the three vehicle types (yellow taxis, green taxis, and for-hire vehicles). I included in
+the database 300,000 records of each type. This should provide a nice sample size of data.
+
+If you would like to use an input set that will definitely return (non-zero) data, I have confirmed that the
+follow ten pairs of from-location IDs and to-location-IDs will do so for the taxiquery (regardless of transport type):
+
+| From Location ID | To Location ID |
+| :---: | :---: |
+| 7 | 145 |
+| 41 | 74 |
+| 42 | 75 |
+| 43 | 142 |
+| 49 | 97 |
+| 74 | 244 |
+| 75 | 48 |
+| 146 | 7 |
+| 181 | 61 |
+| 255 | 112 |
+
 ## Database Schema
 The database is composed of [two tables](https://github.com/mike-tutkowski/ms-cse/blob/master/sql/create_taxi_derby_db.sql).
 
