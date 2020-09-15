@@ -138,7 +138,7 @@ follow ten pairs of from-location IDs and to-location-IDs will do so for the tax
 | 181 | 61 |
 | 255 | 112 |
 
-* Note: Reminder that "Average Cost" when the transportType query parameter is set to FOR_HIRE will always be 0.00
+&ast; Note: Reminder that "Average Cost" when the transportType query parameter is set to FOR_HIRE will always be 0.00
 because total cost does not exist in the data set of for-hire vehicles.
 
 ## Database Schema
