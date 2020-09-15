@@ -118,7 +118,7 @@ in one important way: it did not contain a trip cost. I only required a subset o
   - `PULocationID`: ID of pickup location (references the LocationID in the Location/Zone above)
   - `DOLocationID`: ID of pickup location (references the LocationID in the Location/Zone above)
 
-## Databasae Schema
+## Database Schema
 The database is composed of [two tables](https://github.com/mike-tutkowski/ms-cse/blob/master/sql/create_taxi_derby_db.sql).
 
 Note: At first, it was not clear to me that a taxi zone could only exist in one borough (i.e. that a single zone cannot
