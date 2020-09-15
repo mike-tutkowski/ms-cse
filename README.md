@@ -82,7 +82,7 @@ The REST service supports the following two commands:
   related to a set of taxi trips that meet the following criteria:
   * The location ID where the taxi trips begin. --> fromLocationId (required)
   * The location ID where the taxi trips end. --> toLocationId (required)
-  * One of three valid values (noted above) to filter based on taxi type. --> transportType (optional)
+  * One of three values (noted above) to filter based on taxi type. --> transportType (optional)
 
   Note: All query parameter names (ex. startsWith) are case sensitive. Query parameter names that
   are not recognized are ignored (more about this in the "Future ideas" section below).
@@ -97,6 +97,34 @@ A log file, called nytripdata.log, is created (if not already present) in the lo
 when running the REST service. You can control the characteristics of logging by editing the
 log4j.properties file located in src/main/resources (requires a restart of the REST service
 for the changes to take effect).
+
+## Raw Data
+The raw data from the yellow and green taxis was in the same format. The raw data for the for-hire vehicles varied
+in one important way: it did not contain a trip cost. I only required a subset of the raw data (detailed below):
+
+- Location/Zone:
+  - `LocationID`: ID of a zone within a borough
+  - `Borough`: the name of the borough
+  - `Zone`: the name of the zone
+- Yellow and Green Trips
+  - `tpep_pickup_datetime`: date and time of passenger pickup
+  - `tpep_dropoff_datetime`: date and time of passenger dropoff
+  - `PULocationID`: ID of pickup location (references the LocationID in the Location/Zone above)
+  - `DOLocationID`: ID of dropoff location (references the LocationID in the Location/Zone above)
+  - `Total_amount`: amount the passenger was charged for the trip
+- FHV Trips
+  - `Pickup_datetime`: date and time of passenger pickup
+  - `DropOff_datetime`: date and time of passenger pickup
+  - `PULocationID`: ID of pickup location (references the LocationID in the Location/Zone above)
+  - `DOLocationID`: ID of pickup location (references the LocationID in the Location/Zone above)
+
+## Databasae Schema
+The database is composed of [two tables](https://github.com/mike-tutkowski/ms-cse/blob/master/sql/create_taxi_derby_db.sql).
+
+Note: At first, it was not clear to me that a taxi zone could only exist in one borough (i.e. that a single zone cannot
+exist in multiple boroughs). As such, I decided to call the table that contains the LocationID (from the raw data section
+above) LOCATION rather than ZONE. Even if it is true that today a zone cannot exist in multiple boroughs, this design scales
+well if New York ever decides to redraw taxi zones and allows for a particular zone to be in more than one borough.
 
 ## Organization of the code
 
@@ -124,4 +152,9 @@ controller.Application class, but this class primarily consists of a bit of boil
 
 * Consider making query parameter names case insensitive and/or returning an error if the user passes in
   a query parameter name that is not recognized.
+
+* Since the "for hire" trips do not include the total cost, this field ends up as 0.00 in the database.
+  Treating these trips as $0.00 throws off the average cost when you run a taxiquery API call that
+  includes more than just "for hire" trips. In the future, consider excluding those trips when figuring
+  out the average cost for the taxiquery API call.
 
