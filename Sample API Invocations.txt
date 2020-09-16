@@ -5,7 +5,7 @@ Note: Query-parameter keys are case sensitive. If you do not use the proper casi
 then the API call will fail. If it is not a required key, then the parameter is silently ignored. This is due to the way Java Spring Boot
 handles these kinds of parameters. There are workarounds that I could have put in place, but there is also a fair amount of debate about
 whether or not ignoring the case of a key might be considered a weakening of the API "contract." As such, I have simply left the Spring
-Boot handling of these parameters are is.
+Boot handling of these parameters as is.
 
 // Return all locations.
 tutkowski@Tut-MacBooks-MacBook-Pro ~ % curl 'http://localhost:5000/locations'
