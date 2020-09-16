@@ -9,17 +9,19 @@
 
 To run the REST service from a command prompt:
 * Navigate to the folder that contains this README file.
-* On Windows, execute the following command: mvnw.cmd spring-boot:run
+* On Windows, execute the following command: mvnw.cmd spring-boot:run<br/>
   On Linux (including Mac OS X), execute the following command: ./mvnw spring-boot:run
 * Note: The first time you run this command, it may take longer than normal to execute
-  as supporting software packages may need to be downloaded.
+  as supporting software packages may need to be downloaded.<br/>
+  Once you see the word "Spring" output in ASCII art (and a handful of INFO messages),
+  the REST service is up and running.
 * Execute CTRL-C to terminate the REST service.
 
 ## Running the tests for the application
 
 To run the unit tests for the REST service from a command prompt:
 * Navigate to the folder that contains this README file.
-* On Windows, execute the following command: mvnw.cmd clean test
+* On Windows, execute the following command: mvnw.cmd clean test<br/>
   On Linux (including Mac OS X), execute the following command: ./mvnw clean test
 * Note: The first time you run this command, it may take longer than normal to execute
   as supporting software packages may need to be downloaded.
