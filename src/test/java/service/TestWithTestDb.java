@@ -13,7 +13,6 @@ import org.mockito.junit.MockitoJUnitRunner;
 @RunWith(MockitoJUnitRunner.class)
 class TestWithTestDb {
     private static final String TEST_CONNECTION_URL = "jdbc:derby:testnytripdb";
-    private static final int EXPECTED_TOTAL_NUMBER_OF_LOCATIONS = 265;
 
     private Service service;
 
@@ -31,8 +30,51 @@ class TestWithTestDb {
 
     @Test
     void testLocations() throws Exception {
-        List<Location> locations = service.getLocations(null);
+        int expectedTotalNumberOfLocations = 265;
 
-        Assert.assertEquals(EXPECTED_TOTAL_NUMBER_OF_LOCATIONS, locations.size());
+        String startsWith = "";
+        testLocationsStartsWith(startsWith, expectedTotalNumberOfLocations);
+
+        // This should pass, as well, as the start-with string should be
+        // trimmed (if it is not equal to null).
+        startsWith = " ";
+        testLocationsStartsWith(startsWith, expectedTotalNumberOfLocations);
+
+        startsWith = null;
+        testLocationsStartsWith(startsWith, expectedTotalNumberOfLocations);
+    }
+
+    @Test
+    void testLocationsStartsWithB() throws Exception {
+        int expectedNumberOfLocationsStartingWithB = 104;
+
+        String startsWith = "B";
+        testLocationsStartsWith(startsWith, expectedNumberOfLocationsStartingWithB);
+
+        startsWith = "b";
+        testLocationsStartsWith(startsWith, expectedNumberOfLocationsStartingWithB);
+    }
+
+    @Test
+    void testLocationsStartsWithSt() throws Exception {
+        int expectedNumberOfLocationsStartingWithSt = 20;
+
+        String startsWith = "St";
+        testLocationsStartsWith(startsWith, expectedNumberOfLocationsStartingWithSt);
+
+        startsWith = "sT";
+        testLocationsStartsWith(startsWith, expectedNumberOfLocationsStartingWithSt);
+
+        startsWith = "st";
+        testLocationsStartsWith(startsWith, expectedNumberOfLocationsStartingWithSt);
+
+        startsWith = "ST";
+        testLocationsStartsWith(startsWith, expectedNumberOfLocationsStartingWithSt);
+    }
+
+    private void testLocationsStartsWith(String startsWith, int expectedNumber) throws Exception {
+        List<Location> locations = service.getLocations(startsWith);
+
+        Assert.assertEquals(expectedNumber, locations.size());
     }
 }
