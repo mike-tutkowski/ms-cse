@@ -49,9 +49,9 @@ import schema.TripTable;
 @org.springframework.stereotype.Service
 public class ServiceImpl implements Service {
     private static final Logger LOGGER = Logger.getLogger(ServiceImpl.class);
-    private static final String CONNECTION_URL = "jdbc:derby:nytripdb";
+    private static final DecimalFormat DECIMAL_FORMATTER = new DecimalFormat("#.##");
 
-    private final DecimalFormat DECIMAL_FORMATTER = new DecimalFormat("#.##");
+    private String connectionUrl = "jdbc:derby:nytripdb";
 
     /**
      * This method retrieves locations from the LOCATION table. If startWith is populated,
@@ -70,7 +70,7 @@ public class ServiceImpl implements Service {
 
         java.util.List<Location> boroughs = new java.util.ArrayList<>();
 
-        try (Connection conn = DriverManager.getConnection(CONNECTION_URL);
+        try (Connection conn = DriverManager.getConnection(connectionUrl);
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs= stmt.executeQuery()) {
             LOGGER.debug("Connected to database from 'getLocations' method");
@@ -107,7 +107,7 @@ public class ServiceImpl implements Service {
 
         LOGGER.debug("SQL to execute = '" + sql + "'");
 
-        try (Connection conn = DriverManager.getConnection(CONNECTION_URL);
+        try (Connection conn = DriverManager.getConnection(connectionUrl);
              PreparedStatement s = conn.prepareStatement(sql);
              ResultSet rs= s.executeQuery()) {
 
@@ -124,5 +124,10 @@ public class ServiceImpl implements Service {
         }
 
         return Optional.empty();
+    }
+
+    // package-level accessibility so applicable test code can change the connection URL.
+    void setConnectionUrl(String connectionUrl) {
+        this.connectionUrl = connectionUrl;
     }
 }
