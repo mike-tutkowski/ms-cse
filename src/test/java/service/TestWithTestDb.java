@@ -1,14 +1,18 @@
 package service;
 
 import data.Location;
+import data.TaxiQuery;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
+
+import schema.TransportType;
 
 @RunWith(MockitoJUnitRunner.class)
 class TestWithTestDb {
@@ -76,5 +80,57 @@ class TestWithTestDb {
         List<Location> locations = service.getLocations(startsWith);
 
         Assert.assertEquals(expectedNumber, locations.size());
+    }
+
+    @Test
+    void testTaxiQueryTransportTypeNone() throws Exception {
+        int fromLocationId = 41;
+        int toLocationId = 24;
+        int expectedAverageSeconds = 911;
+        float expectedAverageCost = 4.6f;
+
+        testTaxiQuery(fromLocationId, toLocationId, TransportType.NONE, expectedAverageSeconds, expectedAverageCost);
+    }
+
+    @Test
+    void testTaxiQueryTransportTypeYellow() throws Exception {
+        int fromLocationId = 161;
+        int toLocationId = 146;
+        int expectedAverageSeconds = 677;
+        float expectedAverageCost = 14.97f;
+
+        testTaxiQuery(fromLocationId, toLocationId, TransportType.YELLOW, expectedAverageSeconds, expectedAverageCost);
+    }
+
+    @Test
+    void testTaxiQueryTransportTypeGreen() throws Exception {
+        int fromLocationId = 129;
+        int toLocationId = 82;
+        int expectedAverageSeconds = 718;
+        float expectedAverageCost = 11.3f;
+
+        testTaxiQuery(fromLocationId, toLocationId, TransportType.GREEN, expectedAverageSeconds, expectedAverageCost);
+    }
+
+    @Test
+    void testTaxiQueryTransportTypeForHire() throws Exception {
+        int fromLocationId = 123;
+        int toLocationId = 77;
+        int expectedAverageSeconds = 1227;
+        float expectedAverageCost = 0f;
+
+        testTaxiQuery(fromLocationId, toLocationId, TransportType.FOR_HIRE, expectedAverageSeconds, expectedAverageCost);
+    }
+
+    private void testTaxiQuery(int fromLocationId, int toLocationId, TransportType transportType,
+                               int expectedAverageSeconds, float expectedAverageCost) throws Exception {
+        Optional<TaxiQuery> opt = service.getTaxiQuery(fromLocationId, toLocationId, transportType);
+
+        Assert.assertTrue(opt.isPresent());
+
+        TaxiQuery taxiQuery = opt.get();
+
+        Assert.assertEquals(expectedAverageSeconds, taxiQuery.getAverageSeconds());
+        Assert.assertEquals(0, Float.compare(expectedAverageCost, taxiQuery.getAverageCost()));
     }
 }
