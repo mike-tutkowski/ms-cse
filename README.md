@@ -3,7 +3,7 @@
 
 ## Requirements
 * [JDK 1.14](https://www.oracle.com/java/technologies/javase-jdk14-downloads.html)
-* Set the JAVA_HOME environment variable to the root folder of your JDK (ex. on Windows: C:\Program Files\Java\jdk-14.0.2)
+* Set the JAVA_HOME environment variable to the root folder of your JDK (ex. on Windows: JAVA_HOME=C:\Program Files\Java\jdk-14.0.2)
 
 ## Running the application
 
@@ -13,18 +13,9 @@ To run the REST service from a command prompt:
   On Linux (including Mac OS X), execute the following command: ./mvnw spring-boot:run
 * Note: The first time you run this command, it may take longer than normal to execute
   as supporting software packages may need to be downloaded.<br/>
-  Once you see the word "Spring" output in ASCII art (and a handful of INFO messages),
+  Once you see the word "Spring" output in ASCII art (followed by a handful of INFO messages),
   the REST service is up and running.
 * Execute CTRL-C to terminate the REST service.
-
-## Running the tests for the application
-
-To run the unit tests for the REST service from a command prompt:
-* Navigate to the folder that contains this README file.
-* On Windows, execute the following command: mvnw.cmd clean test<br/>
-  On Linux (including Mac OS X), execute the following command: ./mvnw clean test
-* Note: The first time you run this command, it may take longer than normal to execute
-  as supporting software packages may need to be downloaded.
 
 ## Calling into the REST service from a client
 
@@ -49,7 +40,7 @@ The REST service supports the following two commands:
   Note that the path, locations, is followed by a '?' and then the key=value pair.
 
   The purpose of this API is to retrieve information about all of the locations in
-  the database. If you use the startWith query parameter, then such locations are
+  the database. If you use the startsWith query parameter, then such locations are
   filtered using the borough name.
 
   The data is returned as an array of JSON objects. Here is an example of what a single location looks like:
@@ -87,18 +78,32 @@ The REST service supports the following two commands:
   * One of three values (noted above) to filter based on taxi type. --> transportType (optional)
 
   Note: All query parameter names (ex. startsWith) are case sensitive. Query parameter names that
-  are not recognized are ignored (more about this in the "Future ideas" section below).
+  are not recognized get ignored (more about this in the "Future ideas" section below).
 
 To help the user acquire a solid understanding of the supported REST calls, I have provided
-a series of example invocations (with output) in the file "Sample API Invocations.txt", which
-is in the same directory as this README file.
+a series of example invocations (with output) in the file [Sample API Invocations.txt](https://github.com/mike-tutkowski/ms-cse/blob/master/Sample%20API%20Invocations.txt).
+
+## Running the unit tests for the application
+
+To run the unit tests for the REST service from a command prompt:
+* Navigate to the folder that contains this README file.
+* On Windows, execute the following command: mvnw.cmd clean test<br/>
+  On Linux (including Mac OS X), execute the following command: ./mvnw clean test
+* Note: The first time you run this command, it may take longer than normal to execute
+  as supporting software packages may need to be downloaded.
+
+The unit tests consist of two styles of testing:
+  * Tests that make use of mocking. At the time being, these are focused on testing the API
+  layer's interactions with the business layer.
+  * Tests that make use of a test database that consists of data that's in a known state. I
+  execute commands against the business layer and pass in parameters that result in known results.
 
 ## Controlling the logging behavior
 
 A log file, called nytripdata.log, is created (if not already present) in the logs folder
 when running the REST service. You can control the characteristics of logging by editing the
-log4j.properties file located in src/main/resources (requires a restart of the REST service
-for the changes to take effect).
+[log4j.properties file](https://github.com/mike-tutkowski/ms-cse/blob/master/src/main/resources/log4j.properties)
+(requires a restart of the REST service for the changes to take effect).
 
 ## Raw Data
 The raw data from the yellow and green taxis was in the same format. The raw data for the for-hire vehicles varied
@@ -120,9 +125,19 @@ in one important way: it did not contain a trip cost. I only required a subset o
   - `PULocationID`: ID of pickup location (references the LocationID in the Location/Zone above)
   - `DOLocationID`: ID of pickup location (references the LocationID in the Location/Zone above)
 
-Note: In order to keep the download time (from GitHub) quick for this project, I decided to include an abridged
-set of data for each of the three vehicle types (yellow taxis, green taxis, and for-hire vehicles). I included in
-the database 300,000 records of each type. This should provide a nice sample size of data.
+Notes:
+
+I noticed some of the raw data may have certain inaccuracies. For example, I saw that at least one trip
+had a negative value for its cost. In a real-world system, we would want to perform some kind of data
+scrubbing to make sure that the data going into the database met certain standards.
+
+In an similar vein, I noticed some trips did not have location IDs associated with them. When I designed
+the TRIP database table, I made sure to default the PICK_UP_LOC_ID and DROP_OFF_LOC_ID columns to the value
+265, which is associated with the "Unknown" location/zone in the LOCATION table.
+
+Also, in order to keep the download time (from GitHub) quick for this project, I decided to include an
+abridged set of data for each of the three vehicle types (yellow taxis, green taxis, and for-hire vehicles).
+I included 300,000 records of each type in the database. This should provide a nice sample size of data.
 
 If you would like to use an input set that will definitely return (non-zero) data&ast;, I have confirmed that the
 follow ten pairs of from-location IDs and to-location-IDs will do so for the taxiquery (regardless of transport type):
@@ -140,16 +155,16 @@ follow ten pairs of from-location IDs and to-location-IDs will do so for the tax
 | 181 | 61 |
 | 255 | 112 |
 
-&ast; Note: Reminder that "Average Cost" when the transportType query parameter is set to FOR_HIRE will always be 0.00
-because total cost does not exist in the data set of for-hire vehicles.
+&ast; Note: Reminder that "Average Cost" when the transportType query parameter is set to FOR_HIRE will always be 0.0
+because total cost does not exist in the raw data set of for-hire vehicles.
 
 ## Database Schema
 The database is composed of [two tables](https://github.com/mike-tutkowski/ms-cse/blob/master/sql/create_taxi_derby_db.sql).
 
 Note: At first, it was not clear to me that a taxi zone could only exist in one borough (i.e. that a single zone cannot
 exist in multiple boroughs). As such, I decided to call the table that contains the LocationID (from the raw data section
-above) LOCATION rather than ZONE. Even if it is true that today a zone cannot exist in multiple boroughs, this design scales
-well if New York ever decides to redraw taxi zones and allows for a particular zone to be in more than one borough.
+above) LOCATION rather than ZONE. Even if it is true that today a single zone cannot exist in multiple boroughs, this design
+scales well if New York ever decides to redraw taxi zones and allows for a particular zone to be in more than one borough.
 
 ## Organization of the code
 
@@ -165,8 +180,8 @@ controller.Application class, but this class primarily consists of a bit of boil
 
 * Increase the code coverage of the unit tests.
 
-* Develop integration/system tests. Currently, I have some degree of unit testing, but no
-  integration/system testing. All of my integration/system testing was performed manually
+* Develop integration/system tests. Currently, I have some degree of unit-test coverage, but
+  no integration/system testing. All of my integration/system testing was performed manually
   (executing the REST API in question against a set of known data and verifying the output
   was as expected).
 
@@ -178,7 +193,7 @@ controller.Application class, but this class primarily consists of a bit of boil
 * Consider making query parameter names case insensitive and/or returning an error if the user passes in
   a query parameter name that is not recognized.
 
-* Since the "for hire" trips do not include the total cost, this field ends up as 0.00 in the database.
+* Since the "for hire" trips do not include the total cost, this field ends up as 0.0 in the database.
   Treating these trips as $0.00 throws off the average cost when you run a taxiquery API call that
   includes more than just "for hire" trips. In the future, consider excluding those trips when figuring
   out the average cost for the taxiquery API call.
