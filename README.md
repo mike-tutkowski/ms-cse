@@ -161,10 +161,9 @@ because total cost does not exist in the raw data set of for-hire vehicles.
 ## Database Schema
 The database is composed of [two tables](https://github.com/mike-tutkowski/ms-cse/blob/master/sql/create_taxi_derby_db.sql).
 
-Note: At first, it was not clear to me that a taxi zone could only exist in one borough (i.e. that a single zone cannot
-exist in multiple boroughs). As such, I decided to call the table that contains the LocationID (from the raw data section
-above) LOCATION rather than ZONE. Even if it is true that today a single zone cannot exist in multiple boroughs, this design
-scales well if New York ever decides to redraw taxi zones and allows for a particular zone to be in more than one borough.
+Note: Due to the fact that the raw data contained columns referred to in one way or another as location IDs, I decided to name the
+table that contains these locations as LOCATION rather than ZONE. In a real-world scenario, I would work with the customer to
+figure out the most useful terminology to use (for example, perhaps 'zone' is more commonly used than 'location' in this domain).
 
 ## Organization of the code
 
