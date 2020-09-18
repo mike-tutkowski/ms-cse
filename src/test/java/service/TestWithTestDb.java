@@ -14,6 +14,10 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import schema.TransportType;
 
+/**
+ * Tests that make use of a test database that consists of data that's in a known state.
+ * I execute commands against the business layer and pass in parameters that result in known results.
+ */
 @RunWith(MockitoJUnitRunner.class)
 class TestWithTestDb {
     private static final String TEST_CONNECTION_URL = "jdbc:derby:testnytripdb";

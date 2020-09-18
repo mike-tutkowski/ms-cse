@@ -21,6 +21,21 @@ public class Location {
         this.zone = zone;
     }
 
+    /**
+     * DO NOT USE THIS CONSTRUCTOR FROM PRODUCT CODE. IT IS ONLY INTENDED FOR
+     * USE IN UNIT TESTING.
+     *
+     *  This constructor is here only so that unit tests can de-serialize a String
+     *  that's in JSON format to an object of this type. The library that performs
+     *  this work needs a no-parameter constructor, but this constructor can be
+     *  private (as this one is).
+     */
+    private Location() {
+        id = 0;
+        borough = "";
+        zone = "";
+    }
+
     public long getId() {
         return id;
     }
@@ -31,5 +46,17 @@ public class Location {
 
     public String getZone() {
         return zone;
+    }
+
+    public boolean equals(Object obj) {
+        if (obj instanceof Location) {
+            Location location = (Location)obj;
+
+            return this.id == location.id &&
+                    this.borough.equals(location.borough) &&
+                    this.zone.equals(location.zone);
+        }
+
+        return false;
     }
 }

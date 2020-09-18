@@ -22,11 +22,35 @@ public class TaxiQuery {
         this.averageCost = averageCost;
     }
 
+    /**
+     * DO NOT USE THIS CONSTRUCTOR FROM PRODUCT CODE. IT IS ONLY INTENDED FOR
+     * USE IN UNIT TESTING.
+     *
+     *  This constructor is here only so that unit tests can de-serialize a String
+     *  that's in JSON format to an object of this type. The library that performs
+     *  this work needs a no-parameter constructor, but this constructor can be
+     *  private (as this one is).
+     */
+    private TaxiQuery() {
+        averageSeconds = 0;
+        averageCost = 0;
+    }
+
     public int getAverageSeconds() {
         return averageSeconds;
     }
 
     public float getAverageCost() {
         return averageCost;
+    }
+
+    public boolean equals(Object obj) {
+        if (obj instanceof TaxiQuery) {
+            TaxiQuery taxiQuery = (TaxiQuery)obj;
+
+            return this.averageSeconds == taxiQuery.averageSeconds && this.averageCost == averageCost;
+        }
+
+        return false;
     }
 }
