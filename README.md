@@ -171,13 +171,13 @@ referencing the applicable borough via a foreign key in the LOCATION table). Her
 * In a real-world system, it is likely these database tables would be populated by some application. This application could be
 written in such a way as to make sure that the borough names that get injected into the LOCATION table always meet certain
 standards (for example, 'Manhattan' would never be populated as 'manhattan').
-* The LOCATION table is likely to be quite static (unlike the TRIP table). As such, once we see that each row is populated
-in a way that we like, it is not likely that this state is going to change much, if at all (new taxi zones are probably not
-created often).
+* Unlike the TRIP table, the LOCATION table is likely to be quite static and not contain much data. As such, once we see that
+each row is populated in a way that we like, it is not likely that this state is going to change much, if at all (new taxi zones
+are probably not created often).
 * If we moved the borough names to their own table, that table would only consist of two columns: an ID and a borough name. This
 would be OK to do, but I believe it's not necessary here.
-* It's not a big deal here since the LOCATION table doesn't contain much data, but you will save a slight amount of storage as well
-as benefit slightly performance wise by storing the data as I have decided to for this project. You must weight those benefits
+* It's not a big deal here since the LOCATION table doesn't contain much data, but you will save a slight amount of storage space
+as well as benefit slightly performance wise by storing the data as I have decided to for this project. You must weight those benefits
 against the costs of not fully normalizing the database. Per my reasons above, I decided to put this data all in the LOCATION table.
 
 ## Organization of the code
