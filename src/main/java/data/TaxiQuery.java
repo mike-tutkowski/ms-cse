@@ -48,7 +48,7 @@ public class TaxiQuery {
         if (obj instanceof TaxiQuery) {
             TaxiQuery taxiQuery = (TaxiQuery)obj;
 
-            return this.averageSeconds == taxiQuery.averageSeconds && this.averageCost == averageCost;
+            return this.averageSeconds == taxiQuery.averageSeconds && this.averageCost == taxiQuery.averageCost;
         }
 
         return false;
