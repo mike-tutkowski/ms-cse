@@ -192,12 +192,22 @@ controller.Application class, but this class primarily consists of a bit of boil
   function is entered and before it is exited. This information would be written to the log
   when logging is set to DEBUG or higher.
 
-* Increase the code coverage of the unit tests.
+* Increase the code coverage of the unit tests. At the time being, I have unit tests that cover
+  the publicly available parts of the API and business layers. In some systems I have worked on,
+  each and every method (public, protected, default, or private) has been covered by a unit test
+  (mocking out any code that calls into a function outside of the function that's being tested).
+  In other systems, the public API is what we focused unit tests on and let the non-public methods
+  be invoked from the methods we were explicitly testing.
+
+* Leverage a tool that can perform an analysis of your current unit-test coverage.
 
 * Develop integration/system tests. Currently, I have some degree of unit-test coverage, but
   no integration/system testing. All of my integration/system testing was performed manually
   (executing the REST API in question against a set of known data and verifying the output
   was as expected).
+
+* Make use of static-analysis tools to analyse the codebase for possible issues and to detect situations
+  where coding standards might not be getting followed properly.
 
 * Possibly include indexes in the database. It would be a good idea in a real-world system to run
   scalability testing to determine if such indexing is necessary when the data reaches a certain quantity.
@@ -212,3 +222,5 @@ controller.Application class, but this class primarily consists of a bit of boil
   includes more than just "for hire" trips. In the future, consider excluding those trips when figuring
   out the average cost for the taxiquery API call.
 
+* Configure GitHub to run unit and system/integration tests when a Pull Request is opened against this repo
+  (and when new changes are pushed to the Pull Request).

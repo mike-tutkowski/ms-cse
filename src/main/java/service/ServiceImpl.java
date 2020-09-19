@@ -22,8 +22,7 @@ import schema.TripTable;
  * (so I can spend more time on other aspects of the project), but it only allows for one active connection at a
  * time. As such, I have made the getLocations and getTaxiQuery methods synchronized so that only one of them
  * is accessing the DB at a time. In a real-world situation, we would want to spend time making sure the DB
- * can not only be accessed from multiple threads at the same time, but that our code can control access to
- * such resources properly.
+ * can be accessed from multiple threads at the same time.
  *
  * Since I elected for this project to keep the data-access layer relatively simple, I did not leverage
  * any of Java's Persistence APIs (JPA). Using tools like that, I could have generated classes that

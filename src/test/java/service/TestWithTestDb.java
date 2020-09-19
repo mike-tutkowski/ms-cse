@@ -86,6 +86,23 @@ class TestWithTestDb {
         Assert.assertEquals(expectedNumber, locations.size());
     }
 
+    /*
+     * Test Database State (only the occurrences of from-location-id=41 and to-location-id=24
+     * are displayed below):
+     *
+     * From Location ID     To Location ID      Transport Type
+     * 41                   24                  YELLOW
+     * NOT 41               24                  YELLOW
+     * 41                   24                  YELLOW
+     * 41                   24                  GREEN
+     * 41                   24                  GREEN
+     * 41                   24                  FOR_HIRE
+     * 41                   24                  FOR_HIRE
+     *
+     * The business layer correctly selects only the matching from-location-id=41
+     * and to-location-id=24 and calculates the results correctly (as compared to
+     * my manual calculations).
+     */
     @Test
     void testTaxiQueryTransportTypeNone() throws Exception {
         int fromLocationId = 41;
@@ -96,6 +113,24 @@ class TestWithTestDb {
         testTaxiQuery(fromLocationId, toLocationId, TransportType.NONE, expectedAverageSeconds, expectedAverageCost);
     }
 
+    /*
+     * Test Database State (only the occurrences of from-location-id=161 and to-location-id=146
+     * are displayed below):
+     *
+     * From Location ID     To Location ID      Transport Type
+     * 161                  146                 YELLOW
+     * 161                  146                 YELLOW
+     * 161                  146                 YELLOW
+     * Not 161              146                 YELLOW
+     * 161                  146                 YELLOW
+     * 161                  Not 146             YELLOW
+     * 161                  146                 GREEN
+     * 161                  146                 FOR_HIRE
+     *
+     * The business layer correctly selects only the matching from-location-id=161 and
+     * to-location-id=146 pairs for transport type YELLOW and calculates the results
+     * correctly (as compared to my manual calculations).
+     */
     @Test
     void testTaxiQueryTransportTypeYellow() throws Exception {
         int fromLocationId = 161;
@@ -106,6 +141,20 @@ class TestWithTestDb {
         testTaxiQuery(fromLocationId, toLocationId, TransportType.YELLOW, expectedAverageSeconds, expectedAverageCost);
     }
 
+    /*
+     * Test Database State (only the occurrences of from-location-id=129 and to-location-id=82
+     * are displayed below):
+     *
+     * From Location ID     To Location ID      Transport Type
+     * Not 129              82                  YELLOW
+     * 129                  82                  GREEN
+     * 129                  82                  GREEN
+     * 129                  82                  GREEN
+     *
+     * The business layer correctly selects only the matching from-location-id=129 and
+     * to-location-id=82 pairs for transport type GREEN and calculates the results
+     * correctly (as compared to my manual calculations).
+     */
     @Test
     void testTaxiQueryTransportTypeGreen() throws Exception {
         int fromLocationId = 129;
@@ -116,6 +165,23 @@ class TestWithTestDb {
         testTaxiQuery(fromLocationId, toLocationId, TransportType.GREEN, expectedAverageSeconds, expectedAverageCost);
     }
 
+    /*
+     * Test Database State (only the occurrences of from-location-id=123 and to-location-id=77
+     * are displayed below):
+     *
+     * From Location ID     To Location ID      Transport Type
+     * 123                  77                  FOR_HIRE
+     * Not 123              77                  FOR_HIRE
+     * 123                  77                  FOR_HIRE
+     * Not 123              77                  FOR_HIRE
+     * 123                  77                  FOR_HIRE
+     * 123                  77                  FOR_HIRE
+     * 123                  77                  FOR_HIRE
+     *
+     * The business layer correctly selects only the matching from-location-id=123 and
+     * to-location-id=77 pairs for transport type FOR_HIRE and calculates the results
+     * correctly (as compared to my manual calculations).
+     */
     @Test
     void testTaxiQueryTransportTypeForHire() throws Exception {
         int fromLocationId = 123;
